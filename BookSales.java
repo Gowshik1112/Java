@@ -55,9 +55,9 @@ public class BookSales {
 			obj.readSalesDetails(sales_path);		
 			obj.top_Customers=BookSales.sortByValues(obj.top_Customers);
 			obj.top_selling_books=BookSales.sortByValues(obj.top_selling_books);
-			obj.topSellingBooks(top_selling_books_count);
-			obj.topCustomers(top_customers_count);
-			obj.salesOnDate(date);
+			if(top_selling_books_count!=0)obj.topSellingBooks(top_selling_books_count);
+			if(top_customers_count!=0)obj.topCustomers(top_customers_count);			
+			if(!date.equals(""))obj.salesOnDate(date);
 			}
 	
 	//To fetch book details from book.csv file
@@ -100,24 +100,25 @@ public class BookSales {
 		String seperator=",";
 		try
 		{
-			String sales[]=new String[10];
+			String sales[]=new String[500];
 			String seperator2=";";
 			b=new BufferedReader(new FileReader(sales_path));
 			String line;
 			String BookCount[]=new String[2];
 			while((line=b.readLine())!=null)
 			{
-			sales=line.split(seperator);
-		
+			sales=line.split(seperator);		
 			for(int i=0;i<Integer.parseInt(sales[3]);i++)
 			{
+				//System.out.println(i);
 			BookCount=sales[4+i].split(seperator2);
 			if(top_selling_books.get(BookCount[0])==null)
 			{
 				top_selling_books.put(BookCount[0],new Integer(BookCount[1]));
-			}
+			}	
 			else
 			{
+				
 				top_selling_books.put(BookCount[0],new Integer(Integer.valueOf(top_selling_books.get(BookCount[0]))+Integer.valueOf(BookCount[1])));
 			}
 			if(top_Customers.get(sales[1])==null)
@@ -153,6 +154,7 @@ public class BookSales {
 		}			
 	}
 	
+	//added additional functionality
 	//To get the specific Book details using Book_Id reference
 	 void getBookDetails(LinkedHashMap <String, LinkedHashMap<String,String>>m)
 	{
@@ -178,12 +180,29 @@ public class BookSales {
 	{System.out.print("top_selling_books"+"\t");
 	Iterator itr=top_selling_books.entrySet().iterator();
 	
-	try
-	{for(int i=0;i<a;i++)
+	try	
+	{
+		String temp=new String();
+		for(int i=0;i<a;i++)
 	{
 		Map.Entry m=(Map.Entry) itr.next();
 		System.out.print(m.getKey()+"\t");
+		temp=m.getValue().toString();
 	}
+		
+		while(itr.hasNext())
+		{
+			
+		Map.Entry m=(Map.Entry) itr.next();
+		if(temp.equals(m.getValue().toString()))
+		{
+			System.out.print(m.getKey()+"\t");
+		}
+		else
+		{
+			break;
+		}
+		}
 	System.out.println();
 	}catch(NoSuchElementException e)
 	{
@@ -194,6 +213,7 @@ public class BookSales {
 	//To print the top_customers details
 	 void topCustomers(int a)
 	{
+		 String temp=new String();
 		System.out.print("top_customers"+"\t");
 	Iterator itr=top_Customers.entrySet().iterator();
 	
@@ -202,6 +222,20 @@ public class BookSales {
 	{
 		Map.Entry m=(Map.Entry) itr.next();
 		System.out.print(m.getKey()+"\t");
+		temp=m.getValue().toString();
+	}
+	while(itr.hasNext())
+	{
+		
+	Map.Entry m=(Map.Entry) itr.next();
+	if(temp.equals(m.getValue().toString()))
+	{
+		System.out.print(m.getKey()+"\t");
+	}
+	else
+	{
+		break;
+	}
 	}
 	System.out.println();
 	}catch(NoSuchElementException e)
@@ -232,7 +266,7 @@ public class BookSales {
 		}
 		else
 		{
-		System.out.println(a+"\t"+sales_on_date.get(a));
+		System.out.println(a+"\t"+Math.round((float)sales_on_date.get(a)*100.0)/100.0);
 		}
 	
 	}catch(NoSuchElementException e)
