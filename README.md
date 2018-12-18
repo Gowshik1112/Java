@@ -55,7 +55,7 @@ Input| Required/Optional | Example|
 #### Input
     BookSales --books=C:/Users/xxx/Downloads/books.list --sales=C:/Users/xxx/Downloads/sales.list --top_customers=2 --top_selling_books=3 --sales_on_date=2018-08-01 --book_details=1A,1c,1B
 
-### Output
+#### Output
     top_customers	aapshv@reads.com	cgeganpr@ehow.com	leoo@thetimes.co.uk	
     top_selling_books	1A	1308045A	AZ	
     sales_on_date	2018-08-01	1532.0
