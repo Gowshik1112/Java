@@ -28,7 +28,7 @@ Input| Required/Optional | Example|
 
     Input: --top_customers=2
     Output: xxxx@doe.ocom   yyyy@doe.com
-    Description: It will show the top customers based on price amount which they have purchased
+    Description: It will show the top customers based on value of purchases they have made
     Note: If required count is 1, but top two customers purchased in same value, then it will print both.
 #### Input 3:
 
@@ -48,7 +48,7 @@ Input| Required/Optional | Example|
             Author	Douglas Adams
             Price	20
 
-    Description: It will show the total sales price on the given date
+    Description: It will show the whole details of the book by using book_id
     Note: If book_id is not available in the book directory, it will show invalid book_id.
 
 ### Example:
