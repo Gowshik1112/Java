@@ -10,13 +10,13 @@
 
 ###  Input Details
 Input| Required/Optional | Example| 
- ------ | ------ | -------|
-- -books=<books.list file path> | Required | - -books=C:/Users/xxx/Downloads.books.list
-- -sales=<sales.list file path> | Required | - -sales=C:/Users/xxx/Downloads.sales.list
-- -top_selling_books=<count>| Optional | - -top_selling_books=3
-- -top_customers=<count>| Optional | - -top_customers=4
-- -sales_on_date=<count>| Optional | - -sales_on_date=2018-04-23
-- -book_details=<book_id 1>,<book_id 2>...<book_id N>| Optional | - -book_details=1A23,3FS3,0FSD
+ |------ | ------ | -------|
+|- -books=<books.list file path> | Required | - -books=C:/Users/xxx/Downloads.books.list
+|- -sales=<sales.list file path> | Required | - -sales=C:/Users/xxx/Downloads.sales.list
+|- -top_selling_books=<count>| Optional | - -top_selling_books=3
+|- -top_customers=<count>| Optional | - -top_customers=4
+|- -sales_on_date=<count>| Optional | - -sales_on_date=2018-04-23
+|- -book_details=<book_id 1>,<book_id 2>...<book_id N>| Optional | - -book_details=1A23,3FS3,0FSD
 
 ### Output Details
 #### Input 1:
@@ -55,7 +55,7 @@ Input| Required/Optional | Example|
 #### Input
     BookSales --books=C:/Users/xxx/Downloads/books.list --sales=C:/Users/xxx/Downloads/sales.list --top_customers=2 --top_selling_books=3 --sales_on_date=2018-08-01 --book_details=1A,1c,1B
 
-### Output
+#### Output
     top_customers	aapshv@reads.com	cgeganpr@ehow.com	leoo@thetimes.co.uk	
     top_selling_books	1A	1308045A	AZ	
     sales_on_date	2018-08-01	1532.0
@@ -74,7 +74,7 @@ Input| Required/Optional | Example|
 
 ### Steps to Execute 
 * Navigate to the path where BookSales.java file is present and compile it  using **_javac_** command
->javac BookSales.java 
+> **javac BookSales.java** 
 * Run the .class file including command line arguments as input using **_java_** command
-> java BookSales --books=C:/Users/xxx/Downloads/books.list --sales=C:/Users/xxx/Downloads/sales.list --top_customers=2 --top_selling_books=3 --sales_on_date=2018-08-01 --book_details=1A,1c,1B
+> **java BookSales --books=C:/Users/xxx/Downloads/books.list --sales=C:/Users/xxx/Downloads/sales.list --top_customers=2 --top_selling_books=3 --sales_on_date=2018-08-01 --book_details=1A,1c,1B**
 ---------------------------  
