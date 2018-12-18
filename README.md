@@ -11,12 +11,12 @@
 ###  Input Details
 Input| Required/Optional | Example| 
  |------ | ------ | -------|
-- -books=<books.list file path> | Required | - -books=C:/Users/xxx/Downloads.books.list
-- -sales=<sales.list file path> | Required | - -sales=C:/Users/xxx/Downloads.sales.list
-- -top_selling_books=<count>| Optional | - -top_selling_books=3
-- -top_customers=<count>| Optional | - -top_customers=4
-- -sales_on_date=<count>| Optional | - -sales_on_date=2018-04-23
-- -book_details=<book_id 1>,<book_id 2>...<book_id N>| Optional | - -book_details=1A23,3FS3,0FSD
+|- -books=<books.list file path> | Required | - -books=C:/Users/xxx/Downloads.books.list
+|- -sales=<sales.list file path> | Required | - -sales=C:/Users/xxx/Downloads.sales.list
+|- -top_selling_books=<count>| Optional | - -top_selling_books=3
+|- -top_customers=<count>| Optional | - -top_customers=4
+|- -sales_on_date=<count>| Optional | - -sales_on_date=2018-04-23
+|- -book_details=<book_id 1>,<book_id 2>...<book_id N>| Optional | - -book_details=1A23,3FS3,0FSD
 
 ### Output Details
 #### Input 1:
