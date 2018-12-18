@@ -94,6 +94,7 @@ public class BookSales {
 		}catch(IOException e)
 		{
 			System.out.println("Books file not found");
+			System.exit(0);
 		}
 		catch(ArrayIndexOutOfBoundsException e)
 		{
@@ -161,6 +162,7 @@ public class BookSales {
 		}catch(IOException e)
 		{
 			System.out.println("Sales file not found");
+			System.exit(0);
 		}
 		catch(ArrayIndexOutOfBoundsException e)
 		{
