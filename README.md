@@ -74,7 +74,7 @@ Input| Required/Optional | Example|
 
 ### Steps to Execute 
 * Navigate to the path where BookSales.java file is present and compile it  using **_javac_** command
->javac BookSales.java 
+> **javac BookSales.java** 
 * Run the .class file including command line arguments as input using **_java_** command
-> java BookSales --books=C:/Users/xxx/Downloads/books.list --sales=C:/Users/xxx/Downloads/sales.list --top_customers=2 --top_selling_books=3 --sales_on_date=2018-08-01 --book_details=1A,1c,1B
+> **java BookSales --books=C:/Users/xxx/Downloads/books.list --sales=C:/Users/xxx/Downloads/sales.list --top_customers=2 --top_selling_books=3 --sales_on_date=2018-08-01 --book_details=1A,1c,1B**
 ---------------------------  
