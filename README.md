@@ -10,7 +10,7 @@
 
 ###  Input Details
 Input| Required/Optional | Example| 
- ------ | ------ | -------|
+ |------ | ------ | -------|
 - -books=<books.list file path> | Required | - -books=C:/Users/xxx/Downloads.books.list
 - -sales=<sales.list file path> | Required | - -sales=C:/Users/xxx/Downloads.sales.list
 - -top_selling_books=<count>| Optional | - -top_selling_books=3
