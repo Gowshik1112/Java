@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.*;
-import java.util.Map.Entry;
+
 public class BookSales {
 	
 	
@@ -14,7 +14,7 @@ public class BookSales {
 	 Map<String, Float>sales_on_date=new TreeMap<String, Float>();	
 	//To store all the details of books
 	 LinkedHashMap<String, LinkedHashMap<String,String>> BookDetails=new LinkedHashMap<String,LinkedHashMap<String,String>>();
-		
+	 String book_id[];
 	
 	public static void main(String[] args) throws IOException
 	{	
@@ -23,44 +23,49 @@ public class BookSales {
 		int top_selling_books_count=0;
 		int top_customers_count=0;
 		String date=new String();
-	
+		BookSales obj=new BookSales();
 		for(int i=0;i<args.length;i++)
 		{
 			if(args[i].contains("--books"))
 			{
-				book_path=args[0].substring(args[0].indexOf("--books=")+8,args[0].indexOf("books.csv")+9);
+				book_path=args[0].substring(args[0].indexOf("--books=")+8);
+				obj.readBookDetails(book_path);
 			}
 			if(args[i].contains("--sales"))
 			{
-				sales_path=args[1].substring(args[1].indexOf("--sales=")+8,args[1].indexOf("sales.csv")+9);
+				sales_path=args[1].substring(args[1].indexOf("--sales=")+8);
+				obj.readSalesDetails(sales_path);
 			}
 			if(args[i].contains("--top_selling_books"))
 			{
 				top_selling_books_count=Integer.parseInt(args[i].substring(args[i].indexOf("=")+1));
+				obj.top_selling_books=BookSales.sortByValues(obj.top_selling_books);
+				obj.topSellingBooks(top_selling_books_count);
 			}
 			if(args[i].contains("--top_customers"))
 			{
 				top_customers_count=Integer.parseInt(args[i].substring(args[i].indexOf("=")+1));
+				obj.top_Customers=BookSales.sortByValues(obj.top_Customers);
+				obj.topCustomers(top_customers_count);
 			}
 			if(args[i].contains("--sales_on_date"))
 			{
 				date=args[i].substring(args[i].indexOf("=")+1);
-			
+				obj.salesOnDate(date);
+			}if(args[i].contains("--book_details"))
+			{
+				obj.book_id=args[i].substring(args[i].indexOf("=")+1).split(",");
+				for(int j=0;j<obj.book_id.length;j++)
+				{
+					obj.getBookDetails(obj.book_id[j]);
+				}
 			}
-		}
-		
-		BookSales obj=new BookSales();
-		
-			obj.readBookDetails(book_path);
-			obj.readSalesDetails(sales_path);		
-			obj.top_Customers=BookSales.sortByValues(obj.top_Customers);
-			obj.top_selling_books=BookSales.sortByValues(obj.top_selling_books);
-			if(top_selling_books_count!=0)obj.topSellingBooks(top_selling_books_count);
-			if(top_customers_count!=0)obj.topCustomers(top_customers_count);			
-			if(!date.equals(""))obj.salesOnDate(date);
+			}		
 			}
 	
-	//To fetch book details from book.csv file
+	
+	@SuppressWarnings("unchecked")
+	//To fetch book details from book.list file
 	void readBookDetails(String book_path) throws IOException
 	{
 		BufferedReader b=null;
@@ -73,8 +78,10 @@ public class BookSales {
 			String line;
 			while((line=b.readLine())!=null)
 			{
+				
 			book=line.split(seperator);
-			LinkedHashMap temp=new LinkedHashMap();
+			@SuppressWarnings({ "rawtypes", "unused" })
+			LinkedHashMap <String,String> temp=new <String,String> LinkedHashMap();
 			temp.put("Title",book[1]);
 			temp.put("Author",book[2]);
 			temp.put("Price",book[3]);
@@ -83,9 +90,15 @@ public class BookSales {
 			
 			book_price.put(book[0],new Float(book[3]));
 			}			
+			book_id=new String[book_price.size()];
 		}catch(IOException e)
 		{
 			System.out.println("Books file not found");
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			System.out.println("Details are missing for the book : "+book[0]+". Update it! ");
+			System.exit(0);
 		}
 		finally
 		{
@@ -93,20 +106,23 @@ public class BookSales {
 		}
 	}
 	
-	
+	//To fetch sales details from sales.list file
 	void readSalesDetails(String sales_path) throws IOException
 	{
 		BufferedReader b=null;
 		String seperator=",";
+		String sales[]=new String[500];
+		String BookCount[]=new String[2];
 		try
 		{
-			String sales[]=new String[500];
+			
 			String seperator2=";";
 			b=new BufferedReader(new FileReader(sales_path));
 			String line;
-			String BookCount[]=new String[2];
+			
 			while((line=b.readLine())!=null)
 			{
+				
 			sales=line.split(seperator);		
 			for(int i=0;i<Integer.parseInt(sales[3]);i++)
 			{
@@ -124,7 +140,7 @@ public class BookSales {
 			if(top_Customers.get(sales[1])==null)
 			{
 				top_Customers.put(sales[1],new Float(Float.valueOf(BookCount[1])*Float.valueOf(book_price.get(BookCount[0]))));
-			//System.out.println(book_price.get(BookCount[0]));
+			
 			}
 			else
 			{
@@ -133,9 +149,7 @@ public class BookSales {
 			if(sales_on_date.get(sales[0])==null)
 			{
 				sales_on_date.put(sales[0],new Float(Float.valueOf(BookCount[1])*Float.valueOf(book_price.get(BookCount[0]))));
-			//System.out.println(book_price.get(BookCount[0]));
-				//System.out.println(Float.valueOf(BookCount[1]));
-				//*Float.valueOf(book_price.get(BookCount[0])
+			
 			}
 			else
 			{
@@ -148,36 +162,47 @@ public class BookSales {
 		{
 			System.out.println("Sales file not found");
 		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			System.out.println("Invalid Sales History at "+sales[0]+" purchased by "+sales[1]);
+			System.exit(0);
+		}
 		finally
 		{
 			b.close();
 		}			
 	}
 	
-	//added additional functionality
-	//To get the specific Book details using Book_Id reference
-	 void getBookDetails(LinkedHashMap <String, LinkedHashMap<String,String>>m)
+	/**added additional functionality
+	To get the specific Book details using Book_Id reference**/
+	 void getBookDetails(String book_id)
 	{
-		
-		Iterator<Entry<String, LinkedHashMap<String, String>>> itr=m.entrySet().iterator();
-		
+		 try {
+		 System.out.println();
+		 @SuppressWarnings({ "unused", "unchecked", "rawtypes" })
+		LinkedHashMap <String,String> temp=new <String,String>LinkedHashMap();
+			temp=BookDetails.get(book_id);
+			@SuppressWarnings("rawtypes")
+			Iterator itr=temp.entrySet().iterator();
+		 System.out.println("Book_ID\t"+book_id);		
 		while(itr.hasNext())
 		{
-			Map.Entry map=(Map.Entry) itr.next();			
-			LinkedHashMap <String,String> temp=new <String,String>LinkedHashMap();
-			temp=(LinkedHashMap<String, String>) map.getValue();
-			System.out.println("Book_Id"+"\t"+map.getKey());
-			for(Map.Entry<String,String> entry: temp.entrySet())
-			{	
-				System.out.println(entry.getKey()+"\t"+entry.getValue());
-			}			
+			@SuppressWarnings("rawtypes")
+			Map.Entry map=(Map.Entry) itr.next();	
+			System.out.println(map.getKey()+"\t"+map.getValue());						
 		}
+		 }catch(NullPointerException e)
+		 {
+			 System.out.println("Book_ID "+book_id+" is an invalid ID");
+			
+		 }
 	}
 	
 	
 	//To print the top_selling_books
 	 void topSellingBooks(int a)
-	{System.out.print("top_selling_books"+"\t");
+	{System.out.print("top_selling_books\t");
+	@SuppressWarnings("rawtypes")
 	Iterator itr=top_selling_books.entrySet().iterator();
 	
 	try	
@@ -185,6 +210,7 @@ public class BookSales {
 		String temp=new String();
 		for(int i=0;i<a;i++)
 	{
+		@SuppressWarnings("rawtypes")
 		Map.Entry m=(Map.Entry) itr.next();
 		System.out.print(m.getKey()+"\t");
 		temp=m.getValue().toString();
@@ -193,6 +219,7 @@ public class BookSales {
 		while(itr.hasNext())
 		{
 			
+		@SuppressWarnings("rawtypes")
 		Map.Entry m=(Map.Entry) itr.next();
 		if(temp.equals(m.getValue().toString()))
 		{
@@ -208,6 +235,7 @@ public class BookSales {
 	{
 	System.out.println();	
 	}
+	
 	}
 	
 	//To print the top_customers details
@@ -215,11 +243,13 @@ public class BookSales {
 	{
 		 String temp=new String();
 		System.out.print("top_customers"+"\t");
+	@SuppressWarnings("rawtypes")
 	Iterator itr=top_Customers.entrySet().iterator();
 	
 	try
 	{for(int i=0;i<a;i++)
 	{
+		@SuppressWarnings("rawtypes")
 		Map.Entry m=(Map.Entry) itr.next();
 		System.out.print(m.getKey()+"\t");
 		temp=m.getValue().toString();
@@ -227,6 +257,7 @@ public class BookSales {
 	while(itr.hasNext())
 	{
 		
+	@SuppressWarnings("rawtypes")
 	Map.Entry m=(Map.Entry) itr.next();
 	if(temp.equals(m.getValue().toString()))
 	{
@@ -249,16 +280,9 @@ public class BookSales {
 	void salesOnDate(String a)
 	{
 		System.out.print("sales_on_date"+"\t");		
-		/*Iterator itr=sales_on_date.entrySet().iterator();
-		while(itr.hasNext())
-		{
-			Map.Entry m=(Map.Entry) itr.next();
-			System.out.println(m.getKey()+"\t");
-	System.out.println(m.getValue()+"\t");
-		}*/
-	try
-	{
 		
+	try
+	{	
 	
 		if(sales_on_date.get(a)==null)
 		{
@@ -274,6 +298,7 @@ public class BookSales {
 		System.out.println();
 	}
 	}
+	
 	//Customized Comparable method to order TreeMap based on Values in descending order 
 	public static <K,V extends Comparable<V>> Map<K,V> sortByValues(final Map<K,V> map)
 	{
