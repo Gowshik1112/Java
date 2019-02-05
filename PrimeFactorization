@@ -1,0 +1,66 @@
+import java.util.*;
+
+public class PrimeFactorization {
+
+	static int num;
+	static HashMap<Integer,Integer> result;
+	public  void calc(int n)
+	{
+		 result=new <Integer,Integer>HashMap();
+		num=n;
+
+while(true)
+{
+	if(num==1)
+	{
+		result.put(num, 1);
+		break;
+	}
+	if(!divide())
+	{
+		result.put(num, 1);
+		break;
+	}
+	
+}
+	}	
+	public boolean divide()
+	{			
+		for(int i=2;i<=num;i++)
+		{
+			
+			if((num%i)==0)
+			{System.out.println(i);
+				num=num/i;
+				if(result.containsKey(i))
+				{
+					
+				result.put(i, result.get(i)+1);
+				
+				}
+				else
+				{
+					result.put(i,1);
+				}
+				return true;
+			}
+		}
+		return false;
+	
+	}
+	public static void main(String[] args) {
+		Scanner scan=new Scanner(System.in);
+		do
+		{
+		System.out.println("Enter a number: ");
+	new S1().calc(scan.nextInt());
+	Set s=result.keySet();
+	Iterator itr=s.iterator();
+	while(itr.hasNext())
+	{
+		Integer i=(Integer) itr.next();
+		System.out.println(i+":"+result.get(i)+" times");
+	}
+		}while(true);
+	}
+}
