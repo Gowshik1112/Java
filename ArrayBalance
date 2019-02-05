@@ -1,0 +1,89 @@
+import java.util.Scanner;
+
+public class S2 {
+
+	public void calc(int a[],int b[])
+	{
+		int suma=caltotal(a),sumb=caltotal(b);
+	
+
+		if(suma==sumb)
+		{
+			System.out.println("Both arrays are already balanced");
+		}
+		else
+		{
+			int aa=0,bb=0;
+			int diff=0;
+			int asize=a.length;
+			int bsize=b.length;
+			
+		for(int i=0;i<asize;i++)
+		{
+			for(int j=0;j<bsize;j++)
+			{
+				diff=a[i]-b[j];
+				if(diff<0)
+				{
+					aa=suma-(-diff);
+					bb=sumb+(-diff);
+					
+					if(aa==bb)
+					{
+						System.out.println("{"+a[i]+","+b[j]+"}");		
+						return;
+					}
+				}
+				else if(diff>0)
+				{
+					aa=suma-diff;
+					bb=sumb+diff;
+				
+					if(aa==bb)
+					{
+						System.out.println("{"+a[i]+","+b[j]+"}");		
+						return;
+					}
+				}
+				else
+				{
+					continue;
+				}
+			}
+		}
+		System.out.println("Arrays can't be balanced");
+		}
+	}
+	
+	int caltotal(int ar[])
+	{
+		int sum=0;
+		for(int i=0;i<ar.length;i++)
+		{
+			sum=sum+ar[i];
+		}
+		return sum;
+	}
+	int[] getElement(int size)
+	{
+		Scanner scan=new Scanner(System.in);
+		int a[]=new int[size];
+		for(int i=0;i<size;i++)
+		{
+			a[i]=scan.nextInt();
+		}
+		return a;
+	}
+	public static void main(String[] args) {
+		Scanner scan=new Scanner(System.in);
+		System.out.println("Enter the size of array A & B: ");
+		int A_size=scan.nextInt();
+		int B_size=scan.nextInt();
+		System.out.println("Enter the value of array A: ");
+		int a[]=new S2().getElement(A_size);
+		System.out.println("Enter the value of array B: ");
+		int b[]=new S2().getElement(B_size);
+		new S2().calc(a, b);		
+	}
+
+}
