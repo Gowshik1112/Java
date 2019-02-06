@@ -1,0 +1,54 @@
+import java.util.Scanner;
+
+public class S3 {
+
+	void calc(int arr[])
+	{
+		int length=arr.length;
+		for(int i=0;i<length;i++)
+		{
+			int j=0;
+			outer:
+			for( j=i+1;j<length;j++)
+			{
+				
+				if(arr[i]<arr[j])
+				{
+					int greater=arr[j];
+					for(int k=j+1;k<arr.length;k++)
+					{
+						if(greater>arr[k])
+						{
+							System.out.print(arr[k]+" ");
+							break outer;
+						}
+					}
+					System.out.print("-1 ");
+					break outer;
+				}
+				
+			}
+		if(i==length-1||j==length)System.out.print("-1 ");
+		}
+	}
+	
+	int[] getElement(int size)
+	{
+		Scanner scan=new Scanner(System.in);
+		int a[]=new int[size];
+		for(int i=0;i<size;i++)
+		{
+			a[i]=scan.nextInt();
+		}
+		return a;
+	}
+	public static void main(String[] args) {
+		Scanner scan=new Scanner(System.in);
+		System.out.println("Enter the size of array: ");
+		int A_size=scan.nextInt();	
+		System.out.println("Enter the value of array A: ");
+		int a[]=new S3().getElement(A_size);
+		new S3().calc(a);
+	}
+
+}
